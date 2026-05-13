@@ -365,9 +365,83 @@ body {
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
-  :root { --panel-w: 100%; }
+  :root {
+    --panel-w: 100%;
+    --header-h: 44px;
+    --toolbar-h: 64px;
+  }
+
+  /* Header compact */
+  .room-header { padding: 0 12px; }
+  .header-left, .header-right { min-width: auto; gap: 8px; }
   .header-center { display: none; }
+  .logo-text { display: none; }
+  .logo-icon { width: 28px; height: 28px; font-size: 11px; }
+  .meeting-timer { font-size: 11px; padding: 4px 8px; }
+  .meeting-id-badge { display: none; }
+  .participant-badge { font-size: 11px; padding: 4px 10px; }
+
+  /* Video grid fills screen */
+  .room-main { height: calc(100vh - var(--header-h) - var(--toolbar-h)); }
+  .room-main.chat-open,
+  .room-main.participants-open { padding-right: 0; }
+
+  .video-grid {
+    padding: 4px;
+    gap: 4px;
+    align-content: stretch;
+    height: 100%;
+  }
+
+  /* Stack videos vertically on mobile */
+  .video-grid[data-count="1"] { grid-template-columns: 1fr; grid-template-rows: 1fr; }
+  .video-grid[data-count="2"] { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
+  .video-grid[data-count="3"],
+  .video-grid[data-count="4"] { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+  .video-grid[data-count="5"],
+  .video-grid[data-count="6"] { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr 1fr; }
+
+  .video-tile {
+    aspect-ratio: unset;
+    min-height: unset;
+    height: 100%;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Toolbar compact */
+  .room-toolbar {
+    padding: 0 8px;
+    justify-content: center;
+  }
+  .toolbar-left, .toolbar-right { display: none; }
+  .toolbar-center { gap: 2px; }
   .toolbar-btn .btn-label { display: none; }
-  .toolbar-btn { padding: 8px; }
-  .btn-icon { width: 40px; height: 40px; }
+  .toolbar-btn { padding: 6px; }
+  .btn-icon { width: 40px; height: 40px; font-size: 15px; }
+  .toolbar-divider { height: 28px; margin: 0 2px; }
+
+  /* Panels overlay full screen on mobile */
+  .chat-panel, .participants-panel {
+    width: 100%;
+    top: var(--header-h);
+    height: calc(100vh - var(--header-h) - var(--toolbar-h));
+  }
+
+  /* Reactions */
+  .reactions-popup { bottom: calc(var(--toolbar-h) + 4px); padding: 6px 8px; }
+  .reaction-btn { width: 36px; height: 36px; font-size: 20px; }
+
+  /* Toast */
+  .toast-container { bottom: calc(var(--toolbar-h) + 10px); }
+  .toast { font-size: 12px; padding: 8px 14px; }
+
+  /* Tile overlay text */
+  .tile-name { font-size: 11px; }
+  .avatar-circle { width: 56px; height: 56px; font-size: 22px; }
+}
+
+@media (max-width: 400px) {
+  .toolbar-center { gap: 0; }
+  .toolbar-btn { padding: 4px; }
+  .btn-icon { width: 36px; height: 36px; font-size: 14px; }
 }
