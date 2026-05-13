@@ -78,18 +78,45 @@ async function init() {
     console.warn('Could not fetch TURN credentials, using STUN only:', err);
   }
 
-  myPeer = new Peer(undefined, {
+  // Build PeerJS config — don't pass port for default HTTPS/HTTP (Render needs this)
+  const peerConfig = {
     host: window.location.hostname,
-    port: window.location.port || 443,
     path: '/peerjs',
     secure: window.location.protocol === 'https:',
     config: { iceServers },
-  });
+    debug: 2,
+  };
+  // Only set port if non-default (e.g. localhost:3000)
+  if (window.location.port) {
+    peerConfig.port = parseInt(window.location.port);
+  }
+
+  myPeer = new Peer(undefined, peerConfig);
 
   myPeer.on('open', (id) => {
     myPeerId = id;
     console.log('My peer ID:', id);
     socket.emit('join-room', { roomId, peerId: id, userName });
+  });
+
+  myPeer.on('error', (err) => {
+    console.error('PeerJS error:', err);
+    showToast('Connection issue — retrying...');
+    // Reconnect after error
+    setTimeout(() => {
+      if (myPeer && myPeer.destroyed) {
+        myPeer = new Peer(undefined, peerConfig);
+        myPeer.on('open', (id) => {
+          myPeerId = id;
+          socket.emit('join-room', { roomId, peerId: id, userName });
+        });
+      }
+    }, 3000);
+  });
+
+  myPeer.on('disconnected', () => {
+    console.warn('PeerJS disconnected, reconnecting...');
+    myPeer.reconnect();
   });
 
   // Answer incoming calls
