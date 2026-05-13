@@ -126,6 +126,36 @@ app.post('/api/room', requireAuthAPI, (req, res) => {
   res.json({ roomId });
 });
 
+// ICE servers (TURN credentials from Metered.ca)
+app.get('/api/ice-servers', requireAuthAPI, async (req, res) => {
+  const apiKey = process.env.METERED_API_KEY;
+  if (!apiKey) {
+    // Fallback to Google STUN only
+    return res.json({
+      iceServers: [
+        { urls: 'stun:stun.l.google.com:19302' },
+        { urls: 'stun:stun1.l.google.com:19302' },
+      ],
+    });
+  }
+
+  try {
+    const response = await fetch(
+      `https://bibhas.metered.live/api/v1/turn/credentials?apiKey=${apiKey}`
+    );
+    const iceServers = await response.json();
+    res.json({ iceServers });
+  } catch (err) {
+    console.error('Failed to fetch TURN credentials:', err);
+    res.json({
+      iceServers: [
+        { urls: 'stun:stun.l.google.com:19302' },
+        { urls: 'stun:stun1.l.google.com:19302' },
+      ],
+    });
+  }
+});
+
 // ===== Socket.io =====
 const rooms = new Map();
 

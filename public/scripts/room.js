@@ -59,12 +59,31 @@ async function init() {
   addVideoTile('local', localStream, userName + ' (You)', true);
   updateToolbarButtons();
 
-  // Setup PeerJS
+  // Setup PeerJS with ICE servers (STUN + TURN)
+  let iceServers = [
+    { urls: 'stun:stun.l.google.com:19302' },
+    { urls: 'stun:stun1.l.google.com:19302' },
+  ];
+
+  // Try to get TURN credentials from server
+  try {
+    const iceRes = await fetch('/api/ice-servers');
+    if (iceRes.ok) {
+      const data = await iceRes.json();
+      if (data.iceServers && data.iceServers.length > 0) {
+        iceServers = data.iceServers;
+      }
+    }
+  } catch (err) {
+    console.warn('Could not fetch TURN credentials, using STUN only:', err);
+  }
+
   myPeer = new Peer(undefined, {
     host: window.location.hostname,
     port: window.location.port || 443,
     path: '/peerjs',
     secure: window.location.protocol === 'https:',
+    config: { iceServers },
   });
 
   myPeer.on('open', (id) => {
