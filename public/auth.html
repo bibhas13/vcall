@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sign in to vCall - Premium video conferencing">
+  <title>vCall – Sign In</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/styles/auth.css">
+</head>
+<body>
+  <div class="bg-gradient"></div>
+  <div class="bg-grid"></div>
+  <div class="floating-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <div class="auth-container" id="auth-container">
+    <!-- Left panel -->
+    <div class="auth-brand">
+      <div class="brand-content">
+        <a href="/auth.html" class="logo">
+          <div class="logo-icon"><i class="fas fa-video"></i></div>
+          <span class="logo-text">vCall</span>
+        </a>
+        <h1 class="brand-title">Connect with<br><span class="gradient-text">anyone, anywhere.</span></h1>
+        <p class="brand-subtitle">Premium video conferencing with crystal clear quality, real-time chat, and screen sharing.</p>
+        <div class="brand-features">
+          <div class="brand-feature"><i class="fas fa-check-circle"></i><span>HD Video & Audio</span></div>
+          <div class="brand-feature"><i class="fas fa-check-circle"></i><span>Screen Sharing</span></div>
+          <div class="brand-feature"><i class="fas fa-check-circle"></i><span>End-to-End Encrypted</span></div>
+          <div class="brand-feature"><i class="fas fa-check-circle"></i><span>No Downloads Needed</span></div>
+        </div>
+      </div>
+      <div class="brand-glow"></div>
+    </div>
+
+    <!-- Right panel — forms -->
+    <div class="auth-forms">
+      <!-- Login Form -->
+      <div class="auth-card" id="login-card">
+        <div class="card-header">
+          <h2>Welcome back</h2>
+          <p>Sign in to your account to continue</p>
+        </div>
+        <form id="login-form" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label for="login-email">Email address</label>
+            <div class="input-wrapper">
+              <i class="fas fa-envelope"></i>
+              <input type="email" id="login-email" placeholder="you@example.com" required autocomplete="email">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <div class="input-wrapper">
+              <i class="fas fa-lock"></i>
+              <input type="password" id="login-password" placeholder="••••••••" required minlength="6" autocomplete="current-password">
+              <button type="button" class="toggle-pass" onclick="togglePassword('login-password', this)">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-error hidden" id="login-error">
+            <i class="fas fa-exclamation-circle"></i>
+            <span id="login-error-text"></span>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full" id="login-submit">
+            <span>Sign in</span>
+            <div class="btn-spinner hidden" id="login-spinner"><i class="fas fa-circle-notch fa-spin"></i></div>
+          </button>
+        </form>
+        <div class="card-footer">
+          <span>Don't have an account?</span>
+          <button class="link-btn" onclick="showSignup()">Create one</button>
+        </div>
+      </div>
+
+      <!-- Signup Form -->
+      <div class="auth-card hidden" id="signup-card">
+        <div class="card-header">
+          <h2>Create account</h2>
+          <p>Get started with free video meetings</p>
+        </div>
+        <form id="signup-form" onsubmit="handleSignup(event)">
+          <div class="form-group">
+            <label for="signup-name">Full name</label>
+            <div class="input-wrapper">
+              <i class="fas fa-user"></i>
+              <input type="text" id="signup-name" placeholder="John Doe" required minlength="2" maxlength="50" autocomplete="name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="signup-email">Email address</label>
+            <div class="input-wrapper">
+              <i class="fas fa-envelope"></i>
+              <input type="email" id="signup-email" placeholder="you@example.com" required autocomplete="email">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="signup-password">Password</label>
+            <div class="input-wrapper">
+              <i class="fas fa-lock"></i>
+              <input type="password" id="signup-password" placeholder="Min. 6 characters" required minlength="6" autocomplete="new-password">
+              <button type="button" class="toggle-pass" onclick="togglePassword('signup-password', this)">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+            <div class="password-strength" id="password-strength">
+              <div class="strength-bar"><div class="strength-fill" id="strength-fill"></div></div>
+              <span class="strength-text" id="strength-text"></span>
+            </div>
+          </div>
+          <div class="form-error hidden" id="signup-error">
+            <i class="fas fa-exclamation-circle"></i>
+            <span id="signup-error-text"></span>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full" id="signup-submit">
+            <span>Create account</span>
+            <div class="btn-spinner hidden" id="signup-spinner"><i class="fas fa-circle-notch fa-spin"></i></div>
+          </button>
+        </form>
+        <div class="card-footer">
+          <span>Already have an account?</span>
+          <button class="link-btn" onclick="showLogin()">Sign in</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/scripts/auth.js"></script>
+</body>
+</html>

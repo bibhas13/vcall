@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="vCall Meeting Room - Video conference in progress">
+  <title>vCall – Meeting</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/styles/room.css">
+</head>
+<body>
+  <!-- Top bar -->
+  <header class="room-header" id="room-header">
+    <div class="header-left">
+      <a href="/" class="logo" id="room-logo">
+        <div class="logo-icon"><i class="fas fa-video"></i></div>
+        <span class="logo-text">vCall</span>
+      </a>
+      <div class="meeting-timer" id="meeting-timer">
+        <i class="fas fa-clock"></i>
+        <span id="timer-display">00:00</span>
+      </div>
+    </div>
+    <div class="header-center">
+      <div class="meeting-id-badge" id="meeting-id-badge">
+        <span id="room-id-display"></span>
+        <button class="icon-btn-sm" id="copy-room-id" title="Copy meeting code">
+          <i class="fas fa-copy"></i>
+        </button>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="participant-badge" id="participant-badge">
+        <i class="fas fa-users"></i>
+        <span id="participant-count">1</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main video area -->
+  <main class="room-main" id="room-main">
+    <div class="video-grid" id="video-grid">
+      <!-- Video tiles will be added dynamically -->
+    </div>
+
+    <!-- Screen share overlay -->
+    <div class="screen-share-view hidden" id="screen-share-view">
+      <video id="screen-share-video" autoplay playsinline></video>
+      <div class="screen-share-label" id="screen-share-label">
+        <i class="fas fa-desktop"></i>
+        <span>Screen sharing</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- Chat sidebar -->
+  <aside class="chat-panel" id="chat-panel">
+    <div class="panel-header">
+      <h3>In-call messages</h3>
+      <button class="icon-btn" id="close-chat-btn">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="chat-messages" id="chat-messages">
+      <div class="chat-empty" id="chat-empty">
+        <i class="fas fa-comment-dots"></i>
+        <p>Messages can only be seen by people in the call and are deleted when the call ends.</p>
+      </div>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" id="chat-input" placeholder="Send a message to everyone" autocomplete="off" maxlength="500">
+      <button class="send-btn" id="send-message-btn">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Participants sidebar -->
+  <aside class="participants-panel" id="participants-panel">
+    <div class="panel-header">
+      <h3>People (<span id="people-count">1</span>)</h3>
+      <button class="icon-btn" id="close-participants-btn">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="participants-list" id="participants-list">
+      <!-- Participants will be added dynamically -->
+    </div>
+  </aside>
+
+  <!-- Bottom toolbar -->
+  <footer class="room-toolbar" id="room-toolbar">
+    <div class="toolbar-left">
+      <div class="meeting-info-bar" id="meeting-info-bar">
+        <span id="current-time-display"></span>
+      </div>
+    </div>
+    <div class="toolbar-center">
+      <button class="toolbar-btn active" id="btn-mic" title="Toggle microphone">
+        <div class="btn-icon"><i class="fas fa-microphone"></i></div>
+        <span class="btn-label">Mic</span>
+      </button>
+      <button class="toolbar-btn active" id="btn-camera" title="Toggle camera">
+        <div class="btn-icon"><i class="fas fa-video"></i></div>
+        <span class="btn-label">Camera</span>
+      </button>
+      <button class="toolbar-btn" id="btn-screen-share" title="Share screen">
+        <div class="btn-icon"><i class="fas fa-arrow-up-from-bracket"></i></div>
+        <span class="btn-label">Present</span>
+      </button>
+      <button class="toolbar-btn" id="btn-hand" title="Raise hand">
+        <div class="btn-icon"><i class="fas fa-hand"></i></div>
+        <span class="btn-label">Hand</span>
+      </button>
+      <button class="toolbar-btn" id="btn-reactions" title="Send reaction">
+        <div class="btn-icon"><i class="fas fa-face-smile"></i></div>
+        <span class="btn-label">React</span>
+      </button>
+      <div class="toolbar-divider"></div>
+      <button class="toolbar-btn" id="btn-chat" title="Toggle chat">
+        <div class="btn-icon">
+          <i class="fas fa-comment-dots"></i>
+          <span class="notification-dot hidden" id="chat-notification"></span>
+        </div>
+        <span class="btn-label">Chat</span>
+      </button>
+      <button class="toolbar-btn" id="btn-participants" title="Show participants">
+        <div class="btn-icon"><i class="fas fa-users"></i></div>
+        <span class="btn-label">People</span>
+      </button>
+      <div class="toolbar-divider"></div>
+      <button class="toolbar-btn end-call" id="btn-leave" title="Leave call">
+        <div class="btn-icon"><i class="fas fa-phone-slash"></i></div>
+        <span class="btn-label">Leave</span>
+      </button>
+    </div>
+    <div class="toolbar-right"></div>
+  </footer>
+
+  <!-- Reactions popup -->
+  <div class="reactions-popup hidden" id="reactions-popup">
+    <button class="reaction-btn" data-emoji="👍">👍</button>
+    <button class="reaction-btn" data-emoji="👏">👏</button>
+    <button class="reaction-btn" data-emoji="😂">😂</button>
+    <button class="reaction-btn" data-emoji="😮">😮</button>
+    <button class="reaction-btn" data-emoji="❤️">❤️</button>
+    <button class="reaction-btn" data-emoji="🎉">🎉</button>
+  </div>
+
+  <!-- Floating reactions container -->
+  <div class="floating-reactions" id="floating-reactions"></div>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Leave confirmation modal -->
+  <div class="modal-overlay hidden" id="leave-modal">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h2>Leave meeting?</h2>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to leave this meeting?</p>
+      </div>
+      <div class="modal-footer modal-footer-row">
+        <button class="btn btn-ghost" id="btn-cancel-leave">Cancel</button>
+        <button class="btn btn-danger" id="btn-confirm-leave">Leave</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+  <script src="/scripts/room.js"></script>
+</body>
+</html>

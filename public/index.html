@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="vCall - Premium video conferencing for everyone. Start instant meetings or join with a code.">
+  <title>vCall – Video Meetings for Everyone</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/styles/landing.css">
+</head>
+<body>
+  <!-- Animated background -->
+  <div class="bg-gradient"></div>
+  <div class="bg-grid"></div>
+  <div class="floating-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-content">
+      <a href="/" class="logo" id="logo">
+        <div class="logo-icon">
+          <i class="fas fa-video"></i>
+        </div>
+        <span class="logo-text">vCall</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features" class="nav-link" id="nav-features">Features</a>
+        <a href="#how-it-works" class="nav-link" id="nav-how-it-works">How it works</a>
+        <button class="btn btn-nav" id="nav-start-btn" onclick="createMeeting()">Start a meeting</button>
+        <div class="user-menu" id="user-menu">
+          <button class="user-avatar-btn" id="user-avatar-btn" onclick="toggleUserMenu()">
+            <span class="avatar-initial" id="avatar-initial"></span>
+          </button>
+          <div class="user-dropdown hidden" id="user-dropdown">
+            <div class="dropdown-header">
+              <span class="dropdown-name" id="dropdown-name"></span>
+              <span class="dropdown-email" id="dropdown-email"></span>
+            </div>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item" onclick="handleLogout()">
+              <i class="fas fa-sign-out-alt"></i> Sign out
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <main>
+    <section class="hero" id="hero-section">
+      <div class="hero-content">
+        <div class="hero-left">
+          <div class="hero-badge" id="hero-badge">
+            <i class="fas fa-bolt"></i>
+            <span>Instant, secure video calls</span>
+          </div>
+          <h1 class="hero-title" id="hero-title">
+            Premium video meetings.
+            <span class="gradient-text">Free for everyone.</span>
+          </h1>
+          <p class="hero-subtitle" id="hero-subtitle">
+            Connect, collaborate, and celebrate from anywhere with vCall. 
+            Crystal clear video, real-time chat, screen sharing, and more — 
+            no downloads required.
+          </p>
+          <div class="hero-actions" id="hero-actions">
+            <button class="btn btn-primary btn-lg" id="btn-new-meeting" onclick="createMeeting()">
+              <i class="fas fa-video"></i>
+              <span>New meeting</span>
+            </button>
+            <div class="join-input-group" id="join-input-group">
+              <div class="input-wrapper">
+                <i class="fas fa-keyboard"></i>
+                <input 
+                  type="text" 
+                  id="join-code-input" 
+                  placeholder="Enter a meeting code" 
+                  autocomplete="off"
+                  spellcheck="false"
+                >
+              </div>
+              <button class="btn btn-ghost" id="btn-join-meeting" onclick="joinMeeting()" disabled>
+                Join
+              </button>
+            </div>
+          </div>
+          <div class="hero-stats" id="hero-stats">
+            <div class="stat">
+              <span class="stat-number" data-count="10">0</span><span class="stat-suffix">M+</span>
+              <span class="stat-label">Meetings hosted</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+              <span class="stat-number" data-count="99">0</span><span class="stat-suffix">.9%</span>
+              <span class="stat-label">Uptime</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+              <span class="stat-number" data-count="256">0</span><span class="stat-suffix">-bit</span>
+              <span class="stat-label">Encryption</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-right" id="hero-visual">
+          <div class="hero-mockup">
+            <div class="mockup-header">
+              <div class="mockup-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="mockup-title">vCall Meeting</div>
+            </div>
+            <div class="mockup-body">
+              <div class="mockup-grid">
+                <div class="mockup-participant main-participant">
+                  <div class="participant-avatar" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                    <i class="fas fa-user"></i>
+                  </div>
+                  <div class="participant-name">You</div>
+                  <div class="participant-controls">
+                    <span class="mic-on"><i class="fas fa-microphone"></i></span>
+                  </div>
+                </div>
+                <div class="mockup-participant">
+                  <div class="participant-avatar" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                    <i class="fas fa-user"></i>
+                  </div>
+                  <div class="participant-name">Sarah</div>
+                  <div class="participant-controls">
+                    <span class="mic-on"><i class="fas fa-microphone"></i></span>
+                  </div>
+                </div>
+                <div class="mockup-participant">
+                  <div class="participant-avatar" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                    <i class="fas fa-user"></i>
+                  </div>
+                  <div class="participant-name">Alex</div>
+                  <div class="participant-controls">
+                    <span class="mic-muted"><i class="fas fa-microphone-slash"></i></span>
+                  </div>
+                </div>
+                <div class="mockup-participant">
+                  <div class="participant-avatar" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">
+                    <i class="fas fa-user"></i>
+                  </div>
+                  <div class="participant-name">Mike</div>
+                  <div class="participant-controls">
+                    <span class="mic-on"><i class="fas fa-microphone"></i></span>
+                  </div>
+                </div>
+              </div>
+              <div class="mockup-toolbar">
+                <div class="toolbar-btn active"><i class="fas fa-microphone"></i></div>
+                <div class="toolbar-btn active"><i class="fas fa-video"></i></div>
+                <div class="toolbar-btn"><i class="fas fa-desktop"></i></div>
+                <div class="toolbar-btn end"><i class="fas fa-phone-slash"></i></div>
+              </div>
+            </div>
+          </div>
+          <div class="mockup-glow"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+      <div class="section-container">
+        <div class="section-header">
+          <span class="section-tag" id="features-tag">Features</span>
+          <h2 class="section-title" id="features-title">Everything you need for seamless meetings</h2>
+          <p class="section-subtitle" id="features-subtitle">
+            Built with the latest web technologies for an experience that rivals native apps.
+          </p>
+        </div>
+        <div class="features-grid" id="features-grid">
+          <div class="feature-card" id="feature-hd-video">
+            <div class="feature-icon">
+              <i class="fas fa-video"></i>
+            </div>
+            <h3>HD Video & Audio</h3>
+            <p>Crystal clear video up to 1080p with noise-canceling audio powered by WebRTC technology.</p>
+          </div>
+          <div class="feature-card" id="feature-screen-share">
+            <div class="feature-icon">
+              <i class="fas fa-desktop"></i>
+            </div>
+            <h3>Screen Sharing</h3>
+            <p>Share your entire screen, a window, or a specific tab with one click during any meeting.</p>
+          </div>
+          <div class="feature-card" id="feature-chat">
+            <div class="feature-icon">
+              <i class="fas fa-comment-dots"></i>
+            </div>
+            <h3>Real-time Chat</h3>
+            <p>Send messages, links, and reactions to all participants without interrupting the conversation.</p>
+          </div>
+          <div class="feature-card" id="feature-security">
+            <div class="feature-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3>End-to-End Encrypted</h3>
+            <p>All communications are encrypted using DTLS-SRTP, ensuring your meetings stay private.</p>
+          </div>
+          <div class="feature-card" id="feature-no-install">
+            <div class="feature-icon">
+              <i class="fas fa-globe"></i>
+            </div>
+            <h3>No Installation</h3>
+            <p>Works directly in your browser. No plugins, no downloads — just click and connect.</p>
+          </div>
+          <div class="feature-card" id="feature-reactions">
+            <div class="feature-icon">
+              <i class="fas fa-hand-sparkles"></i>
+            </div>
+            <h3>Reactions & Hand Raise</h3>
+            <p>Express yourself with emoji reactions and raise your hand to speak without unmuting.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="how-it-works" id="how-it-works">
+      <div class="section-container">
+        <div class="section-header">
+          <span class="section-tag" id="hiw-tag">How it works</span>
+          <h2 class="section-title" id="hiw-title">Start a meeting in seconds</h2>
+          <p class="section-subtitle" id="hiw-subtitle">
+            Three simple steps to connect with anyone, anywhere.
+          </p>
+        </div>
+        <div class="steps-grid" id="steps-grid">
+          <div class="step-card" id="step-1">
+            <div class="step-number">01</div>
+            <div class="step-content">
+              <h3>Create or Join</h3>
+              <p>Start a new meeting instantly or enter a code to join an existing one.</p>
+            </div>
+            <div class="step-icon">
+              <i class="fas fa-plus-circle"></i>
+            </div>
+          </div>
+          <div class="step-connector"><i class="fas fa-arrow-right"></i></div>
+          <div class="step-card" id="step-2">
+            <div class="step-number">02</div>
+            <div class="step-content">
+              <h3>Share the Link</h3>
+              <p>Copy your unique meeting link and share it with the people you want to invite.</p>
+            </div>
+            <div class="step-icon">
+              <i class="fas fa-share-nodes"></i>
+            </div>
+          </div>
+          <div class="step-connector"><i class="fas fa-arrow-right"></i></div>
+          <div class="step-card" id="step-3">
+            <div class="step-number">03</div>
+            <div class="step-content">
+              <h3>Collaborate</h3>
+              <p>Talk, share your screen, chat, and use reactions to make meetings productive.</p>
+            </div>
+            <div class="step-icon">
+              <i class="fas fa-users"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="cta-section">
+      <div class="cta-card">
+        <div class="cta-glow"></div>
+        <h2 id="cta-title">Ready to get started?</h2>
+        <p id="cta-subtitle">Create your next meeting — it's just one click away.</p>
+        <button class="btn btn-primary btn-lg" id="cta-start-btn" onclick="createMeeting()">
+          <i class="fas fa-rocket"></i>
+          <span>Start a free meeting</span>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" id="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <div class="logo">
+          <div class="logo-icon"><i class="fas fa-video"></i></div>
+          <span class="logo-text">vCall</span>
+        </div>
+        <p>Premium video conferencing for everyone.</p>
+      </div>
+      <div class="footer-links">
+        <span>Built with WebRTC</span>
+        <span class="footer-dot">•</span>
+        <span>Peer-to-Peer</span>
+        <span class="footer-dot">•</span>
+        <span>Open Source</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal: Pre-join -->
+  <div class="modal-overlay" id="prejoin-modal">
+    <div class="modal" id="prejoin-modal-content">
+      <div class="modal-header">
+        <h2>Get ready</h2>
+        <button class="modal-close" id="modal-close-btn" onclick="closePrejoinModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="preview-container" id="preview-container">
+          <video id="preview-video" autoplay muted playsinline></video>
+          <div class="preview-placeholder" id="preview-placeholder">
+            <div class="preview-avatar">
+              <i class="fas fa-user"></i>
+            </div>
+          </div>
+          <div class="preview-controls">
+            <button class="preview-btn active" id="preview-mic-btn" onclick="togglePreviewMic()">
+              <i class="fas fa-microphone"></i>
+            </button>
+            <button class="preview-btn active" id="preview-cam-btn" onclick="togglePreviewCam()">
+              <i class="fas fa-video"></i>
+            </button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="user-name-input">Your name</label>
+          <input 
+            type="text" 
+            id="user-name-input" 
+            placeholder="Enter your name" 
+            autocomplete="off"
+            maxlength="30"
+          >
+        </div>
+        <div class="meeting-info" id="meeting-info">
+          <i class="fas fa-link"></i>
+          <span id="meeting-link-display"></span>
+          <button class="copy-btn" id="copy-link-btn" onclick="copyMeetingLink()">
+            <i class="fas fa-copy"></i>
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary btn-lg" id="btn-join-now" onclick="enterRoom()">
+          <i class="fas fa-arrow-right"></i>
+          <span>Join now</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="/scripts/landing.js"></script>
+</body>
+</html>
