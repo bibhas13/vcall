@@ -64,8 +64,14 @@ async function createMeeting() {
 
 // --- Join meeting ---
 function joinMeeting() {
-  const code = joinInput.value.trim();
+  let code = joinInput.value.trim();
   if (!code) return;
+
+  // If user pasted a full URL, extract just the room ID
+  if (code.includes('/room/')) {
+    code = code.split('/room/').pop();
+  }
+
   pendingRoomId = code;
   openPrejoinModal();
 }
