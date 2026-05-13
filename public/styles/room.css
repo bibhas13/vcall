@@ -29,8 +29,10 @@ body {
   font-family: var(--font);
   background: var(--bg-primary);
   color: var(--text-primary);
-  height: 100vh; overflow: hidden;
+  height: 100vh; height: 100dvh;
+  overflow: hidden;
   -webkit-font-smoothing: antialiased;
+  display: flex; flex-direction: column;
 }
 
 /* ===== Header ===== */
@@ -78,7 +80,7 @@ body {
 
 /* ===== Main Video Area ===== */
 .room-main {
-  height: calc(100vh - var(--header-h) - var(--toolbar-h));
+  flex: 1; min-height: 0;
   display: flex; position: relative;
   background: var(--bg-primary);
   transition: var(--transition);
@@ -368,11 +370,11 @@ body {
   :root {
     --panel-w: 100%;
     --header-h: 44px;
-    --toolbar-h: 64px;
+    --toolbar-h: 56px;
   }
 
   /* Header compact */
-  .room-header { padding: 0 12px; }
+  .room-header { padding: 0 10px; flex-shrink: 0; }
   .header-left, .header-right { min-width: auto; gap: 8px; }
   .header-center { display: none; }
   .logo-text { display: none; }
@@ -381,8 +383,10 @@ body {
   .meeting-id-badge { display: none; }
   .participant-badge { font-size: 11px; padding: 4px 10px; }
 
-  /* Video grid fills screen */
-  .room-main { height: calc(100vh - var(--header-h) - var(--toolbar-h)); }
+  /* Video grid fills remaining space */
+  .room-main {
+    flex: 1; min-height: 0;
+  }
   .room-main.chat-open,
   .room-main.participants-open { padding-right: 0; }
 
@@ -408,23 +412,25 @@ body {
     border-radius: var(--radius-sm);
   }
 
-  /* Toolbar compact */
+  /* Toolbar always visible at bottom */
   .room-toolbar {
-    padding: 0 8px;
+    flex-shrink: 0;
+    padding: 0 6px;
     justify-content: center;
   }
   .toolbar-left, .toolbar-right { display: none; }
   .toolbar-center { gap: 2px; }
   .toolbar-btn .btn-label { display: none; }
-  .toolbar-btn { padding: 6px; }
-  .btn-icon { width: 40px; height: 40px; font-size: 15px; }
-  .toolbar-divider { height: 28px; margin: 0 2px; }
+  .toolbar-btn { padding: 4px; }
+  .btn-icon { width: 38px; height: 38px; font-size: 15px; }
+  .toolbar-divider { height: 24px; margin: 0 1px; }
 
   /* Panels overlay full screen on mobile */
   .chat-panel, .participants-panel {
     width: 100%;
     top: var(--header-h);
-    height: calc(100vh - var(--header-h) - var(--toolbar-h));
+    bottom: var(--toolbar-h);
+    height: auto;
   }
 
   /* Reactions */
@@ -442,6 +448,6 @@ body {
 
 @media (max-width: 400px) {
   .toolbar-center { gap: 0; }
-  .toolbar-btn { padding: 4px; }
-  .btn-icon { width: 36px; height: 36px; font-size: 14px; }
+  .toolbar-btn { padding: 3px; }
+  .btn-icon { width: 34px; height: 34px; font-size: 13px; }
 }
